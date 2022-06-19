@@ -1,6 +1,8 @@
 import { Sync } from '../src';
 import { TPackageJson } from '../src/Sync';
 
+const isWin = process.platform === "win32";
+
 const testPackageJson_normal: TPackageJson = {
 	repos: {
 		'repoName': {
@@ -23,9 +25,14 @@ const testPackageJson_noObject: TPackageJson = {
 	},
 };
 
+// Test Sync.defaultDryRunCommand() static fn:
+test('defaultDryRunCommand', () => {
+	expect(Sync.defaultDryRunCommand()).toBe(!isWin ? 'echo -n' : 'echo | set /p dummy=');
+});
+
 // Test Sync.getPackageJsonPath() static fn:
 test('getPackageJsonPath', () => {
-	expect(Sync.getPackageJsonPath('x')).toBe('x/package.json');
+	expect(Sync.getPackageJsonPath('x')).toBe(!isWin ? 'x/package.json' : 'x\\package.json');
 });
 
 // Test Sync().doSync() fn:
@@ -49,7 +56,7 @@ test('doSync-notfound_exception', () => {
 	expect(new Sync().doSync({ dryRun: true, dryRunCommand: 'ehco' }, testPackageJson_normal)).toEqual(
 		expect.arrayContaining([expect.objectContaining({
 			name: 'repoName',
-			code: 127,
+			code: !isWin ? 127 : 1,
 		})]));
 });
 

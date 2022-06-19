@@ -25,6 +25,10 @@ export class Sync {
 		return fs.existsSync(path);
 	}
 
+	static defaultDryRunCommand(): string {
+		return process.platform === "win32" ? 'echo | set /p dummy=' : 'echo -n';
+	}
+
 	doSync(options: IReposyncOptions, packageJsonOverride?: TPackageJson): TRepoSyncResult {
 		const repos = packageJsonOverride?.repos ?? this.packageJson?.repos;
 		const result: TRepoSyncResult = [];
@@ -36,7 +40,7 @@ export class Sync {
 			if (repoObject?.url) {
 				var cwd;
 				const gitCommand = ['git'];
-				if (options.dryRun) gitCommand.unshift(options.dryRunCommand ?? 'echo -n');
+				if (options.dryRun) gitCommand.unshift(options.dryRunCommand ?? Sync.defaultDryRunCommand());
 				const destinationRepoPath = path.join(this.rootDir, this.packageJson?.reposDir ?? '', repoName);
 
 				if (!Sync.directoryExists(destinationRepoPath)) {
