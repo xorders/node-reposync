@@ -1,0 +1,8 @@
+{
+	"repos": {
+		"test": {
+			"url": "test"
+		}
+	},
+	"reposDir": "testDir"
+}
