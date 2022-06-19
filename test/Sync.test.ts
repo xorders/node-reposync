@@ -28,24 +28,6 @@ test('getPackageJsonPath', () => {
 	expect(Sync.getPackageJsonPath('x')).toBe('x/package.json');
 });
 
-// Test Sync.addTrailingSlash() static fn:
-test('addTrailingSlash-var1', () => {
-	expect(Sync.addTrailingSlash('x/')).toBe('x/');
-});
-
-test('addTrailingSlash-var2', () => {
-	expect(Sync.addTrailingSlash('x')).toBe('x/');
-});
-
-// Test Sync.removeTrailingSlash() static fn:
-test('removeTrailingSlash-var1', () => {
-	expect(Sync.removeTrailingSlash('x/')).toBe('x');
-});
-
-test('removeTrailingSlash-var2', () => {
-	expect(Sync.removeTrailingSlash('x')).toBe('x');
-});
-
 // Test Sync().doSync() fn:
 test('doSync-normal', () => {
 	expect(new Sync().doSync({ dryRun: true }, testPackageJson_normal)).toEqual([{

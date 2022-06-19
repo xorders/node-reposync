@@ -3,6 +3,7 @@ import { IRepo, IReposJson } from './interfaces/reposJson.interface';
 import { IReposyncOptions, TRepoSyncResult } from './interfaces/reposync.interface';
 import * as child_process from 'child_process';
 import * as fs from 'fs';
+import * as path from 'path';
 
 export type TPackageJson = IPackageJson | IReposJson;
 
@@ -12,20 +13,12 @@ export class Sync {
 
 	constructor(rootDir?: string) {
 		const { main } = require;
-		this.rootDir = Sync.addTrailingSlash(rootDir ?? require('path').dirname(<string>main?.filename));
+		this.rootDir = rootDir ?? require('path').dirname(<string>main?.filename);
 		this.packageJson = require(Sync.getPackageJsonPath(this.rootDir));
 	}
 
 	static getPackageJsonPath(rootDir: string) {
-		return rootDir + '/package.json';
-	}
-
-	static addTrailingSlash(path: string) {
-		return path.replace(/\/?$/, '/');
-	}
-
-	static removeTrailingSlash(path: string) {
-		return path.replace(/\/?$/, '');
+		return path.join(rootDir, 'package.json');
 	}
 
 	static directoryExists(path: string) {
@@ -44,14 +37,14 @@ export class Sync {
 				var cwd;
 				const gitCommand = ['git'];
 				if (options.dryRun) gitCommand.unshift(options.dryRunCommand ?? 'echo -n');
-				const destinationRepoPath = Sync.addTrailingSlash(this.rootDir + this.packageJson?.reposDir ?? '') + repoName;
+				const destinationRepoPath = path.join(this.rootDir, this.packageJson?.reposDir ?? '', repoName);
 
 				if (!Sync.directoryExists(destinationRepoPath)) {
 					gitCommand.push(`clone ${ repoObject.url }`);
 					if (repoObject.branch) gitCommand.push(`--branch=${ repoObject.branch }`);
 					if (repoObject.depth) gitCommand.push(`--depth=${ repoObject.depth }`);
 					gitCommand.push(repoName);
-					cwd = this.rootDir + this.packageJson?.reposDir ?? '';
+					cwd = path.join(this.rootDir, this.packageJson?.reposDir ?? '');
 				} else {
 					gitCommand.push(`fetch`);
 					cwd = destinationRepoPath;
