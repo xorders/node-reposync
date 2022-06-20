@@ -1,6 +1,6 @@
 import { IPackageJson } from './interfaces/packageJson.interface';
 import { IRepo, IReposJson } from './interfaces/reposJson.interface';
-import { IReposyncOptions, IResult, TRepoSyncResult } from './interfaces/reposync.interface';
+import { IReposyncOptions, ITaskStatus, TRepoSyncResult } from './interfaces/reposync.interface';
 import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -63,14 +63,14 @@ export class Sync {
 						name: repoName,
 						code: 0,
 						message: stdout,
-						result: IResult.SUCCESS
+						status: ITaskStatus.SUCCESS
 					});
 				} catch (error: any) {
 					result.push({
 						name: repoName,
 						code: error?.status,
 						message: `exec error=[${error?.message}] cwd=[${cwd}] cmd=[${cmd}]` ,
-						result: IResult.FAILURE
+						status: ITaskStatus.FAILURE
 					});
 				}
 			} else {
@@ -78,7 +78,7 @@ export class Sync {
 					name: repoName,
 					code: -1,
 					message: 'no object',
-					result: IResult.FAILURE
+					status: ITaskStatus.FAILURE
 				});
 			}
 		}

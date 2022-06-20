@@ -3,16 +3,17 @@ export interface IReposyncOptions {
 	dryRunCommand?: string;
 }
 
-export enum IResult {
+export enum ITaskStatus {
 	SUCCESS = 'SUCCESS',
-	FAILURE = 'FAILURE'
+	FAILURE = 'FAILURE',
+	WORKING = 'WORKING',
 }
 
 export interface IRepoResult {
 	name: string;
 	code: number;
 	message?: string;
-	result: IResult;
+	status: ITaskStatus;
 }
 
 export type TRepoSyncResult = IRepoResult[];
