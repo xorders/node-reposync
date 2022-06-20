@@ -41,6 +41,7 @@ test('doSync-normal', () => {
 		name: 'repoName',
 		code: 0,
 		message: 'git clone repoUrl repoName',
+		status: 'SUCCESS'
 	}]);
 });
 
@@ -49,6 +50,7 @@ test('doSync-normal-existing', () => {
 		name: 'repoNameExisting',
 		code: 0,
 		message: 'git fetch',
+		status: 'SUCCESS'
 	}]);
 });
 
@@ -57,6 +59,7 @@ test('doSync-notfound_exception', () => {
 		expect.arrayContaining([expect.objectContaining({
 			name: 'repoName',
 			code: !isWin ? 127 : 1,
+			status: 'FAILURE'
 		})]));
 });
 
@@ -65,6 +68,7 @@ test('doSync-no_object_result', () => {
 		expect.arrayContaining([expect.objectContaining({
 			name: 'repoName',
 			code: -1,
-			message: 'no object'
+			message: 'no object',
+			status: 'FAILURE'
 		})]));
 });
