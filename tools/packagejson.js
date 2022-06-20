@@ -1,6 +1,6 @@
 /* eslint-disable */
 const fs = require('fs')
-const Path = require('path')
+const path = require('path')
 const fileName = '../package.json'
 const file = require(fileName)
 /* eslint-enable */
@@ -14,7 +14,7 @@ for (let i = 0, l = args.length; i < l; i++) {
 }
 
 fs.writeFile(
-  Path.join(__dirname, fileName),
+  path.join(__dirname, fileName),
   JSON.stringify(file, null, 2),
   (err) => {
     if (err) {

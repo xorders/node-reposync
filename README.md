@@ -20,7 +20,7 @@ Minimal `package.json`
 {
 	"repos": {
 		"meta-openembedded": {
-			"url": "https://github.com/openembedded/meta-openembedded.git",
+			"url": "https://github.com/openembedded/meta-openembedded.git"
 		}
 	}
 }
@@ -43,10 +43,18 @@ Practical `package.json`
 
 ## Invocation from parent project
 
-```typescript
+Javascript: 
+```javascript
+var Reposync = require('node-reposync')
 
+var sync = new Reposync.Sync()
+
+console.log(sync.doSync({}));
+```
+
+Typescript:
+```typescript
 import { Sync } from 'node-reposync';
 
-new Sync().doSync()
-
+new Sync().doSync({})
 ```
