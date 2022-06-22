@@ -10,11 +10,78 @@ This nodejs module was created to substitute `repo` tool required to download an
 
 It also allows to use nodejs `package.json` to manage build scripts for your Yocto-based project. 
 
-# Usage
+# Quick start
 
-## package.json for parent project
+## Existing project
 
-Minimal `package.json`
+### 1. Install module as developer dependency:
+
+```shell
+npm install node-reposync --save-dev
+# or if you usually yarn:
+yarn add node-reposync --dev
+```
+
+### 2. Add `repos` and `reposDir` to your **package.json**
+
+- `repos` is stores all repos that needs to be synchronized;
+- `reposDir` defines a directory where all repos will be synchronized;
+
+For example:
+
+```json
+{
+	"repos": {
+		"meta-openembedded": {
+			"url": "https://github.com/openembedded/meta-openembedded.git",
+            "branch": "kirkstone",
+            "depth": 1
+		}
+	},
+	"reposDir": "sources"
+}
+```
+
+### 3. Create invocation javascript file
+
+The simplest version:
+
+```javascript
+// sources.js
+var Reposync = require('node-reposync')
+var sync = new Reposync.Sync()
+console.log(sync.doSync({}));
+```
+
+### 4. Add script to your package.json
+
+```json
+{
+    "scripts": {
+        "sources": "node sources.js"
+    }
+}
+```
+
+### 5. Run invocation script
+
+```shell
+npm run sources
+```
+
+## New project
+
+### 1. Create **package.json** for parent project
+
+First, lets create package.json:
+
+```shell
+npm init
+```
+
+Second, add `repos` and/or `reposDir` to package.json. 
+
+Minimal package.json should have this:
 
 ```json
 {
@@ -26,7 +93,7 @@ Minimal `package.json`
 }
 ```
 
-Practical `package.json`
+Practical package.json can have also branch names and depth levels, alone with directory where repos will be synchronized:
 
 ```json
 {
@@ -37,29 +104,27 @@ Practical `package.json`
             "depth": 1
 		}
 	},
-	"repoDir": "sources"
+	"reposDir": "sources"
 }
 ```
 
-## Invocation from parent project
+### 2. Invocation from parent project
 
 Javascript: 
 ```javascript
+// sources.js
 var Reposync = require('node-reposync')
-
 var sync = new Reposync.Sync()
-
 console.log(sync.doSync({}));
 ```
 
-Typescript:
+Or if you prefer Typescript (you will need to enable Typescript support to run this):
 ```typescript
 import { Sync } from 'node-reposync';
-
 new Sync().doSync({})
 ```
 
-# Example
+# Full working example
 
 For this example you will need _nodejs_ and _NPM_ installed.
 
@@ -92,7 +157,7 @@ Create `package.json` in root directory of your project.
         "sources": "node sources.js"
     },
     "dependencies": {
-        "node-reposync": "^0.0.3"
+        "node-reposync": "^0.0.5"
     },
     "reposDir": "sources",
     "repos": {
@@ -120,10 +185,9 @@ Create `package.json` in root directory of your project.
 Create `sources.js` in root directory of your project.
 
 ```javascript
+// sources.js
 var Reposync = require('node-reposync')
-
 var sync = new Reposync.Sync()
-
 console.log(sync.doSync({}));
 ```
 
