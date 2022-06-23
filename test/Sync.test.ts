@@ -46,7 +46,7 @@ test('doSync-normal', () => {
 });
 
 test('doSync-normal-existing', () => {
-	expect(new Sync().doSync({ dryRun: true }, testPackageJson_existing)).toEqual([{
+	expect(new Sync(process.cwd() + '/test/').doSync({ dryRun: true }, testPackageJson_existing)).toEqual([{
 		name: 'repoNameExisting',
 		code: 0,
 		message: 'git fetch',

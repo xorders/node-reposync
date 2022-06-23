@@ -12,8 +12,7 @@ export class Sync {
 	packageJson: TPackageJson;
 
 	constructor(rootDir?: string) {
-		const { main } = require;
-		this.rootDir = rootDir ?? require('path').dirname(<string>main?.filename);
+		this.rootDir = rootDir ?? process.cwd();
 		this.packageJson = require(Sync.getPackageJsonPath(this.rootDir));
 	}
 
