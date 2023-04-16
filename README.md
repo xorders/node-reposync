@@ -3,8 +3,8 @@
 Helper NPM package for syncing base project with multiple repos
 
 
-[![Test](https://github.com/xoros-repo/node-reposync/actions/workflows/test.yml/badge.svg)](https://github.com/xoros-repo/node-reposync/actions/workflows/test.yml)
-[![Release & Publish](https://github.com/xoros-repo/node-reposync/actions/workflows/publish.yml/badge.svg)](https://github.com/xoros-repo/node-reposync/actions/workflows/publish.yml)
+[![Test](https://github.com/xorde-labs/node-reposync/actions/workflows/test.yml/badge.svg)](https://github.com/xorde-labs/node-reposync/actions/workflows/test.yml)
+[![Release & Publish](https://github.com/xorde-labs/node-reposync/actions/workflows/publish.yml/badge.svg)](https://github.com/xorde-labs/node-reposync/actions/workflows/publish.yml)
 
 This nodejs module was created to substitute `repo` tool required to download and update multiple repositories while working with Yocto-based projects.
 
