@@ -155,22 +155,24 @@ Create `package.json` in root directory of your project.
 	"dependencies": {
 		"node-reposync": "^0.0.5"
 	},
-	"reposDir": "sources",
-	"repos": {
-		"poky": {
-			"url": "git://git.yoctoproject.org/poky",
-			"branch": "kirkstone",
-			"depth": 1
-		},
-		"meta-openembedded": {
-			"url": "https://github.com/openembedded/meta-openembedded.git",
-			"branch": "kirkstone",
-			"depth": 1
-		},
-		"openembedded-core": {
-			"url": "git://git.openembedded.org/openembedded-core",
-			"branch": "kirkstone",
-			"depth": 1
+	"reposync": {
+		"dir": "sources",
+		"repos": {
+			"poky": {
+				"url": "git://git.yoctoproject.org/poky",
+				"branch": "kirkstone",
+				"depth": 1
+			},
+			"meta-openembedded": {
+				"url": "https://github.com/openembedded/meta-openembedded.git",
+				"branch": "kirkstone",
+				"depth": 1
+			},
+			"openembedded-core": {
+				"url": "git://git.openembedded.org/openembedded-core",
+				"branch": "kirkstone",
+				"depth": 1
+			}
 		}
 	}
 }
