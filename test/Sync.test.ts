@@ -1,11 +1,11 @@
 import { Sync } from '../src';
 import { TPackageJson } from '../src/Sync';
 
-const isWin = process.platform === "win32";
+const isWin = process.platform === 'win32';
 
 const testPackageJson_normal: TPackageJson = {
 	repos: {
-		'repoName': {
+		repoName: {
 			url: 'repoUrl',
 		},
 	},
@@ -13,7 +13,7 @@ const testPackageJson_normal: TPackageJson = {
 
 const testPackageJson_existing: TPackageJson = {
 	repos: {
-		'repoNameExisting': {
+		repoNameExisting: {
 			url: 'repoUrl',
 		},
 	},
@@ -21,13 +21,26 @@ const testPackageJson_existing: TPackageJson = {
 
 const testPackageJson_noObject: TPackageJson = {
 	repos: {
-		'repoName': {}
+		repoName: {},
 	},
 };
 
-// Test Sync.defaultDryRunCommand() static fn:
-test('defaultDryRunCommand', () => {
-	expect(Sync.defaultDryRunCommand()).toBe(!isWin ? 'echo -n' : 'echo | set /p dummy=');
+describe('makeCommandDryRun', () => {
+	test('disabled', () => {
+		expect(Sync.makeCommandDryRun('', { enable: false })).toBe('');
+	});
+
+	test('enabled, no override', () => {
+		expect(Sync.makeCommandDryRun('command_to_dry_run', { enable: true })).toBe(
+			!isWin ? 'printf "command_to_dry_run"' : 'echo | set /p dummy= "command_to_dry_run"',
+		);
+	});
+
+	test('enabled, with override', () => {
+		expect(Sync.makeCommandDryRun('command_to_dry_run', { enable: true, override: 'dry_run_override' })).toBe(
+			'dry_run_override command_to_dry_run',
+		);
+	});
 });
 
 // Test Sync.getPackageJsonPath() static fn:
@@ -35,40 +48,53 @@ test('getPackageJsonPath', () => {
 	expect(Sync.getPackageJsonPath('x')).toBe(!isWin ? 'x/package.json' : 'x\\package.json');
 });
 
-// Test Sync().doSync() fn:
-test('doSync-normal', () => {
-	expect(new Sync().doSync({ dryRun: true }, testPackageJson_normal)).toEqual([{
-		name: 'repoName',
-		code: 0,
-		message: 'git clone repoUrl repoName',
-		status: 'SUCCESS'
-	}]);
+
+describe('doSync', () => {
+	test('normal', () => {
+		expect(new Sync().doSync({ dryRun: true }, testPackageJson_normal)).toEqual([
+			{
+				name: 'repoName',
+				code: 0,
+				message: 'git clone repoUrl repoName',
+				status: 'SUCCESS',
+			},
+		]);
+	});
+
+	test('normal, existing', () => {
+		expect(new Sync(process.cwd() + '/test/').doSync({ dryRun: true }, testPackageJson_existing)).toEqual([
+			{
+				name: 'repoNameExisting',
+				code: 0,
+				message: 'git fetch',
+				status: 'SUCCESS',
+			},
+		]);
+	});
+
+	test('notfound exception', () => {
+		expect(new Sync().doSync({ dryRun: true, dryRunCommand: 'ehco' }, testPackageJson_normal)).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					name: 'repoName',
+					code: !isWin ? 127 : 1,
+					status: 'FAILURE',
+				}),
+			]),
+		);
+	});
+
+	test('no object result', () => {
+		expect(new Sync().doSync({ dryRun: true }, testPackageJson_noObject)).toEqual(
+			expect.arrayContaining([
+				expect.objectContaining({
+					name: 'repoName',
+					code: -1,
+					message: 'no object',
+					status: 'FAILURE',
+				}),
+			]),
+		);
+	});
 });
 
-test('doSync-normal-existing', () => {
-	expect(new Sync(process.cwd() + '/test/').doSync({ dryRun: true }, testPackageJson_existing)).toEqual([{
-		name: 'repoNameExisting',
-		code: 0,
-		message: 'git fetch',
-		status: 'SUCCESS'
-	}]);
-});
-
-test('doSync-notfound_exception', () => {
-	expect(new Sync().doSync({ dryRun: true, dryRunCommand: 'ehco' }, testPackageJson_normal)).toEqual(
-		expect.arrayContaining([expect.objectContaining({
-			name: 'repoName',
-			code: !isWin ? 127 : 1,
-			status: 'FAILURE'
-		})]));
-});
-
-test('doSync-no_object_result', () => {
-	expect(new Sync().doSync({ dryRun: true }, testPackageJson_noObject)).toEqual(
-		expect.arrayContaining([expect.objectContaining({
-			name: 'repoName',
-			code: -1,
-			message: 'no object',
-			status: 'FAILURE'
-		})]));
-});
