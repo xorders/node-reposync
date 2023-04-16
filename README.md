@@ -42,23 +42,12 @@ For example:
 }
 ```
 
-### 3. Create invocation javascript file
-
-The simplest version:
-
-```javascript
-// sources.js
-var Reposync = require('node-reposync')
-var sync = new Reposync.Sync()
-console.log(sync.doSync({}));
-```
-
 ### 4. Add script to your package.json
 
 ```json
 {
     "scripts": {
-        "sources": "node sources.js"
+        "sources": "reposync"
     }
 }
 ```
