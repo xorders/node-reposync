@@ -1,7 +1,6 @@
 # node-reposync
 
-Helper NPM package for syncing base project with multiple repos
-
+Helper NPM package for syncing base project with multiple repos.
 
 [![Test](https://github.com/xorde-labs/node-reposync/actions/workflows/test.yml/badge.svg)](https://github.com/xorde-labs/node-reposync/actions/workflows/test.yml)
 [![Release & Publish](https://github.com/xorde-labs/node-reposync/actions/workflows/publish.yml/badge.svg)](https://github.com/xorde-labs/node-reposync/actions/workflows/publish.yml)
@@ -31,14 +30,16 @@ For example:
 
 ```json
 {
-	"repos": {
-		"meta-openembedded": {
-			"url": "https://github.com/openembedded/meta-openembedded.git",
-            "branch": "kirkstone",
-            "depth": 1
-		}
-	},
-	"reposDir": "sources"
+    "reposync": {
+		"repos": {
+			"meta-openembedded": {
+				"url": "https://github.com/openembedded/meta-openembedded.git",
+				"branch": "kirkstone",
+				"depth": 1
+			}
+		},
+		"dir": "sources"
+    }
 }
 ```
 
@@ -74,9 +75,11 @@ Minimal package.json should have this:
 
 ```json
 {
-	"repos": {
-		"meta-openembedded": {
-			"url": "https://github.com/openembedded/meta-openembedded.git"
+	"reposync": {
+		"repos": {
+			"meta-openembedded": {
+				"url": "https://github.com/openembedded/meta-openembedded.git"
+			}
 		}
 	}
 }
@@ -86,14 +89,16 @@ Practical package.json can have also branch names and depth levels, alone with d
 
 ```json
 {
-	"repos": {
-		"meta-openembedded": {
-			"url": "https://github.com/openembedded/meta-openembedded.git",
-            "branch": "kirkstone",
-            "depth": 1
-		}
-	},
-	"reposDir": "sources"
+	"reposync": {
+		"repos": {
+			"meta-openembedded": {
+				"url": "https://github.com/openembedded/meta-openembedded.git",
+				"branch": "kirkstone",
+				"depth": 1
+			}
+		},
+		"dir": "sources"
+	}
 }
 ```
 

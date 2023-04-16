@@ -8,7 +8,9 @@ export interface IReposMap {
 	[repoName: string]: IRepo;
 }
 
-export interface IReposJson {
-	repos: IReposMap;
-	reposDir: string;
+export interface IConfig {
+	reposync: {
+		repos: IReposMap;
+		dir: string;
+	}
 }

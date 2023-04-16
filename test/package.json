@@ -1,8 +1,10 @@
 {
-	"repos": {
-		"test": {
-			"url": "test"
-		}
-	},
-	"reposDir": "testDir"
+	"reposync": {
+		"repos": {
+			"test": {
+				"url": "test"
+			}
+		},
+		"dir": "testDir"
+	}
 }
