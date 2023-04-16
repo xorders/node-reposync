@@ -44,14 +44,18 @@ export class Sync {
 			if (repoObject?.url) {
 				let cwd;
 				const gitCommand = ['git'];
-				const destinationRepoPath = path.join(this.rootDir, this.packageJson?.reposDir ?? '', repoName);
+				const reposDir = path.join(this.rootDir, this.packageJson?.reposDir ?? '');
+
+				if (!Sync.directoryExists(reposDir)) fs.mkdirSync(reposDir, { recursive: true });
+
+				const destinationRepoPath = path.join(reposDir, repoName);
 
 				if (!Sync.directoryExists(destinationRepoPath)) {
 					gitCommand.push(`clone ${repoObject.url}`);
 					if (repoObject.branch) gitCommand.push(`--branch=${repoObject.branch}`);
 					if (repoObject.depth) gitCommand.push(`--depth=${repoObject.depth}`);
 					gitCommand.push(repoName);
-					cwd = path.join(this.rootDir, this.packageJson?.reposDir ?? '');
+					cwd = reposDir;
 				} else {
 					gitCommand.push(`fetch`);
 					cwd = destinationRepoPath;
@@ -77,7 +81,7 @@ export class Sync {
 				} catch (error: any) {
 					result.push({
 						name: repoName,
-						code: error?.status,
+						code: error?.status ?? -1,
 						message: `exec error=[${error?.message}] cwd=[${cwd}] cmd=[${cmd}]`,
 						status: ITaskStatus.FAILURE,
 					});
@@ -86,7 +90,7 @@ export class Sync {
 				result.push({
 					name: repoName,
 					code: -1,
-					message: 'no object',
+					message: 'Configuration error: url is missing',
 					status: ITaskStatus.FAILURE,
 				});
 			}
