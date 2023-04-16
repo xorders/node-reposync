@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version_override:
-        description: 'Version override (should be set if no tag is set)'
+        description: 'Version override (otherwise it will be taken from package.json)'
         default: ''
       is_draft:
         description: 'Is this release draft?'

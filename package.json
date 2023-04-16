@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Helper NPM package for syncing base project with multiple repos",
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "umd:main": "dist/umd/index.js",
-  "types": "dist/types/index.d.js",
   "bin": {
     "reposync": "./dist/cjs/bin/reposync.js"
   },
