@@ -90,7 +90,7 @@ describe('doSync', () => {
 				expect.objectContaining({
 					name: 'repoName',
 					code: -1,
-					message: 'no object',
+					message: 'Configuration error: url is missing',
 					status: 'FAILURE',
 				}),
 			]),
