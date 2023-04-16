@@ -7,7 +7,7 @@ Helper NPM package for syncing base project with multiple repos.
 
 This nodejs module was created to substitute `repo` tool required to download and update multiple repositories while working with Yocto-based projects.
 
-It also allows to use nodejs `package.json` to manage build scripts for your Yocto-based project. 
+It also allows to use nodejs `package.json` to manage build scripts for your Yocto-based project.
 
 # Quick start
 
@@ -30,7 +30,7 @@ For example:
 
 ```json
 {
-    "reposync": {
+	"reposync": {
 		"repos": {
 			"meta-openembedded": {
 				"url": "https://github.com/openembedded/meta-openembedded.git",
@@ -39,7 +39,7 @@ For example:
 			}
 		},
 		"dir": "sources"
-    }
+	}
 }
 ```
 
@@ -47,9 +47,9 @@ For example:
 
 ```json
 {
-    "scripts": {
-        "sources": "reposync"
-    }
+	"scripts": {
+		"sources": "reposync"
+	}
 }
 ```
 
@@ -69,7 +69,7 @@ First, lets create package.json:
 npm init
 ```
 
-Second, add `repos` and/or `reposDir` to package.json. 
+Second, add `repos` and/or `reposDir` to package.json.
 
 Minimal package.json should have this:
 
@@ -104,18 +104,20 @@ Practical package.json can have also branch names and depth levels, alone with d
 
 ### 2. Invocation from parent project
 
-Javascript: 
+Javascript:
+
 ```javascript
 // sources.js
-var Reposync = require('node-reposync')
-var sync = new Reposync.Sync()
+var Reposync = require('node-reposync');
+var sync = new Reposync.Sync();
 console.log(sync.doSync({}));
 ```
 
 Or if you prefer Typescript (you will need to enable Typescript support to run this):
+
 ```typescript
 import { Sync } from 'node-reposync';
-new Sync().doSync({})
+new Sync().doSync({});
 ```
 
 # Full working example
@@ -144,33 +146,33 @@ Create `package.json` in root directory of your project.
 
 ```json
 {
-    "name": "your-distro",
-    "version": "0.0.1",
-    "description": "",
-    "scripts": {
-        "sources": "node sources.js"
-    },
-    "dependencies": {
-        "node-reposync": "^0.0.5"
-    },
-    "reposDir": "sources",
-    "repos": {
-        "poky": {
-            "url": "git://git.yoctoproject.org/poky",
-            "branch": "kirkstone",
-            "depth": 1
-        },
-        "meta-openembedded": {
-            "url": "https://github.com/openembedded/meta-openembedded.git",
-            "branch": "kirkstone",
-            "depth": 1
-        },
-        "openembedded-core": {
-            "url": "git://git.openembedded.org/openembedded-core",
-            "branch": "kirkstone",
-            "depth": 1
-        }
-    }
+	"name": "your-distro",
+	"version": "0.0.1",
+	"description": "",
+	"scripts": {
+		"sources": "node sources.js"
+	},
+	"dependencies": {
+		"node-reposync": "^0.0.5"
+	},
+	"reposDir": "sources",
+	"repos": {
+		"poky": {
+			"url": "git://git.yoctoproject.org/poky",
+			"branch": "kirkstone",
+			"depth": 1
+		},
+		"meta-openembedded": {
+			"url": "https://github.com/openembedded/meta-openembedded.git",
+			"branch": "kirkstone",
+			"depth": 1
+		},
+		"openembedded-core": {
+			"url": "git://git.openembedded.org/openembedded-core",
+			"branch": "kirkstone",
+			"depth": 1
+		}
+	}
 }
 ```
 
@@ -180,8 +182,8 @@ Create `sources.js` in root directory of your project.
 
 ```javascript
 // sources.js
-var Reposync = require('node-reposync')
-var sync = new Reposync.Sync()
+var Reposync = require('node-reposync');
+var sync = new Reposync.Sync();
 console.log(sync.doSync({}));
 ```
 
