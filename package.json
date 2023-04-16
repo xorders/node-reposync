@@ -1,6 +1,6 @@
 {
   "name": "node-reposync",
-  "version": "1.0.3",
+  "version": "2.0.0",
   "description": "Helper NPM package for syncing base project with multiple repos",
   "main": "dist/cjs/index.js",
   "bin": {
