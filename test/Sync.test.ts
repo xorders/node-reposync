@@ -4,24 +4,31 @@ import { TPackageJson } from '../src/Sync';
 const isWin = process.platform === 'win32';
 
 const testPackageJson_normal: TPackageJson = {
-	repos: {
-		repoName: {
-			url: 'repoUrl',
+	reposync: {
+		repos: {
+			repoName: {
+				url: 'repoUrl',
+			},
 		},
 	},
 };
 
 const testPackageJson_existing: TPackageJson = {
-	repos: {
-		repoNameExisting: {
-			url: 'repoUrl',
+	reposync: {
+		repos: {
+			repoNameExisting: {
+				url: 'repoUrl',
+			},
 		},
+		dir: 'testDir',
 	},
 };
 
 const testPackageJson_noObject: TPackageJson = {
-	repos: {
-		repoName: {},
+	reposync: {
+		repos: {
+			repoName: {},
+		},
 	},
 };
 
@@ -47,7 +54,6 @@ describe('makeCommandDryRun', () => {
 test('getPackageJsonPath', () => {
 	expect(Sync.getPackageJsonPath('x')).toBe(!isWin ? 'x/package.json' : 'x\\package.json');
 });
-
 
 describe('doSync', () => {
 	test('normal', () => {
@@ -97,4 +103,3 @@ describe('doSync', () => {
 		);
 	});
 });
-
