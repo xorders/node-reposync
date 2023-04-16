@@ -1,11 +1,11 @@
 import { IPackageJson } from './interfaces/packageJson.interface';
-import { IRepo, IReposJson } from './interfaces/reposJson.interface';
+import { IRepo, IConfig } from './interfaces/reposJson.interface';
 import { IReposyncOptions, ITaskStatus, TRepoSyncResult } from './interfaces/reposync.interface';
 import * as child_process from 'child_process';
 import * as fs from 'fs';
 import * as path from 'path';
 
-export type TPackageJson = IPackageJson | IReposJson;
+export type TPackageJson = IPackageJson | IConfig;
 
 export class Sync {
 	rootDir: string;
@@ -34,7 +34,8 @@ export class Sync {
 	}
 
 	doSync(options: IReposyncOptions, packageJsonOverride?: TPackageJson): TRepoSyncResult {
-		const repos = packageJsonOverride?.repos ?? this.packageJson?.repos;
+		const json = packageJsonOverride ?? this.packageJson;
+		const repos = json?.reposync?.repos;
 		const result: TRepoSyncResult = [];
 
 		for (const key of Object.keys(repos)) {
@@ -44,7 +45,7 @@ export class Sync {
 			if (repoObject?.url) {
 				let cwd;
 				const gitCommand = ['git'];
-				const reposDir = path.join(this.rootDir, this.packageJson?.reposDir ?? '');
+				const reposDir = path.join(this.rootDir, json?.reposync?.dir ?? '');
 
 				if (!Sync.directoryExists(reposDir)) fs.mkdirSync(reposDir, { recursive: true });
 
