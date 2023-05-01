@@ -72,7 +72,7 @@ describe('doSync', () => {
 			{
 				name: 'repoNameExisting',
 				code: 0,
-				message: 'git fetch',
+				message: 'git reset --hard HEAD; git pull',
 				status: 'SUCCESS',
 			},
 		]);

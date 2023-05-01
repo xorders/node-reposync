@@ -58,7 +58,7 @@ export class Sync {
 					gitCommand.push(repoName);
 					cwd = reposDir;
 				} else {
-					gitCommand.push(`fetch`);
+					gitCommand.push(`reset --hard HEAD; git pull`);
 					cwd = destinationRepoPath;
 				}
 
